@@ -3,21 +3,24 @@ from threading import Thread
 
 
 class Knight(Thread):
-    def __init__(self, name, power, enemies = 100):
-        self.Name = name
-        self.Power = power
-        self.Enemy = enemies
-        super().__init__()
+
+    def __init__(self, name, skill):
+
+        Thread.__init__(self)
+        self.enemies_count = 100
+        self.name = name
+        self.skill = skill
+        self.days_to_protect = self.enemies_count // skill
 
     def run(self):
-        print(f'{self.Name} на нас напали!')
-        data_count = 0
-        while self.Enemy != 0:
-            self.Enemy = self.Enemy - self.Power
-            data_count = data_count + 1
-            print(f'{self.Name} сражается {data_count} дней(дня). Воинов осталось : {self.Enemy} ')
+        print(f' {self.name} на нас напали!!!')
+        for day in range(self.days_to_protect):
             time.sleep(1)
-        print(f'{self.Name} одержал победу спустя {data_count} дней(дня)!')
+            enemies_rest = self.enemies_count - self.skill * (day+1)
+            print(f'{self.name} защищает королевство в течение {day + 1} дня... осталось {enemies_rest} врагов.')
+            if enemies_rest == 0:
+                print(f'{self.name} одержал победу за {day + 1} день(дней).')
+
 
 
 first_knight = Knight('Sir Lancelot', 10)
